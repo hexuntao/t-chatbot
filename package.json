@@ -1,0 +1,41 @@
+{
+  "name": "t-chatbot",
+  "version": "1.0.0",
+  "description": "基于openai chatGPT api 实现 仿 chatGPT 页面聊天功能",
+  "private": true,
+  "author": {
+    "name": "hexuntao",
+    "url": "https://tchat.hexuntao.com"
+  },
+  "homepage": "https://github.com/hexuntao/t-chatbot",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hexuntao/t-chatbot"
+  },
+  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@types/node": "18.11.9",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.8",
+    "eslint": "8.9.0",
+    "eslint-config-next": "13.0.2",
+    "next": "13.0.2",
+    "openai": "^3.2.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-use": "^17.4.0",
+    "typescript": "4.8.4"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.21",
+    "prettier": "2.5.1",
+    "tailwindcss": "^3.2.7"
+  }
+}
