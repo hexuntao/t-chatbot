@@ -17,7 +17,7 @@ export default async function handler(req: NextRequest) {
     top_p: 1,
     frequency_penalty: 0,
     presence_penalty: 0,
-    max_tokens: 1000,
+    max_tokens: 200,
     stream: true,
     n: 1,
   };
