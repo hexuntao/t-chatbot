@@ -16,7 +16,7 @@ export default async function (req: any, res: any) {
     return;
   }
 
-  const params = req.body.params || {};
+  const params = req.body || {};
   if (!params.prompt || params.prompt.trim().length === 0) {
     res.status(400).json({
       error: {
@@ -29,7 +29,7 @@ export default async function (req: any, res: any) {
   try {
     const completion = await openai.createCompletion(params);
     console.log("completion", completion);
-    res.status(200).json({ result: completion.data.choices[0].text });
+    res.status(200).json({ result: completion });
   } catch (error: any) {
     console.log("error.message", error.message);
     // Consider adjusting the error handling logic for your use case
