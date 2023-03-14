@@ -7,14 +7,14 @@ import Side from "../components/Side";
 export default function Home() {
   const [list, { push, updateAt }] = useList<ContentItemProps>([]);
 
-  const fetchAnswer = async (text?: string) => {
+  const fetchAnswer = async (params: any) => {
     try {
       const response = await fetch("/api/generate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ prompt: text }),
+        body: JSON.stringify(params),
       });
 
       const data = await response.json();
@@ -33,16 +33,22 @@ export default function Home() {
     const item: ContentItemProps = { question: e };
     push(item);
 
-    const data = await fetchAnswer(e);
+    const params = {
+      model: "text-davinci-003",
+      prompt: e,
+      temperature: 0,
+      max_tokens: 7,
+    };
+    const data = await fetchAnswer(params);
     console.log("data", data);
-    item.answer = <div>回答：{item.question}</div>;
+    item.answer = <div dangerouslySetInnerHTML={{ __html: data as any }}></div>;
     updateAt(list.length, item);
   };
   return (
     <>
-      <div className="overflow-hidden w-full h-full relative">
+      <div className="relative w-full h-full overflow-hidden">
         <div className="flex h-full flex-1 flex-col md:pl-[260px]">
-          <main className="relative h-full w-full transition-width flex flex-col overflow-hidden items-stretch flex-1">
+          <main className="relative flex flex-col items-stretch flex-1 w-full h-full overflow-hidden transition-width">
             <div className="flex-1 overflow-hidden">
               {list.length ? <Content list={list} /> : <HomeExample />}
             </div>
