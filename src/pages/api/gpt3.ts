@@ -9,7 +9,7 @@ export const config = {
 };
 
 export default async function handler(req: NextRequest) {
-  const { prompt } = (await req.json()) as { prompt: string };
+  const { prompt, ...rest } = (await req.json()) as { prompt: string };
   const payload: OpenAIStreamEvent = {
     model: "text-davinci-003",
     prompt,
@@ -20,6 +20,7 @@ export default async function handler(req: NextRequest) {
     max_tokens: 200,
     stream: true,
     n: 1,
+    ...rest,
   };
 
   const stream = await OpenAIStream(payload);

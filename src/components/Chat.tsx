@@ -3,7 +3,7 @@ import Image from "next/image";
 type ChatProps = {
   requestMessage: string;
   responseMessage: string;
-  answer: string;
+  answer?: string;
 };
 const Chat = ({ requestMessage, responseMessage, answer }: ChatProps) => {
   return (

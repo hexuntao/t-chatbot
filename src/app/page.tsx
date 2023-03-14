@@ -2,20 +2,46 @@
 import { useState } from "react";
 import Hero from "@/components/Hero";
 import Chat from "@/components/Chat";
-import { useChatStore } from "@/store/useChatStore";
 
 export default function HomePage() {
   const [requestMessage, setRequestMessage] = useState<string>("");
-
-  const { chats, chat, answer, loading, addChat } = useChatStore();
+  const [responseMessage, setResponseMessage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const generateResponse = async (e: any) => {
     if (loading) {
       return;
     }
     e.preventDefault();
-    addChat(requestMessage);
-    setRequestMessage("");
+    setResponseMessage("");
+    setLoading(true);
+
+    const response = await fetch("/api/gpt3", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ prompt: requestMessage }),
+    });
+
+    if (!response.ok) {
+      throw new Error("访问出错了!");
+    }
+
+    const data = response.body;
+    if (!data) return;
+
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+
+    let done = false;
+    while (!done) {
+      const { value, done: readerDone } = await reader.read();
+      done = readerDone;
+      const chunkValue = decoder.decode(value);
+      setResponseMessage(prev => prev + chunkValue);
+    }
+    setLoading(false);
   };
 
   return (
@@ -23,17 +49,19 @@ export default function HomePage() {
       <div className="flex-1 overflow-hidden">
         <div className="h-full dark:bg-gray-800">
           <div className="flex flex-col items-center h-full text-sm dark:bg-gray-800">
-            {chats.length ? (
-              chats.map((item: any, index: number) => (
-                <Chat
-                  key={index}
-                  requestMessage={item.chat}
-                  responseMessage={item.answer}
-                  answer={answer}
-                />
-              ))
+            {responseMessage === "" ? (
+              loading ? (
+                <div className="flex flex-col items-center justify-center h-full font-bold text-gray-100">
+                  远程生成中...
+                </div>
+              ) : (
+                <Hero />
+              )
             ) : (
-              <Hero />
+              <Chat
+                requestMessage={requestMessage}
+                responseMessage={responseMessage}
+              />
             )}
           </div>
         </div>
