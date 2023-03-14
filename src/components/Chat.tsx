@@ -3,8 +3,9 @@ import Image from "next/image";
 type ChatProps = {
   requestMessage: string;
   responseMessage: string;
+  answer: string;
 };
-const Chat = ({ requestMessage, responseMessage }: ChatProps) => {
+const Chat = ({ requestMessage, responseMessage, answer }: ChatProps) => {
   return (
     <>
       <div className="w-full text-gray-800 border-b border-black/10 dark:border-gray-900/50 dark:text-gray-100 group dark:bg-gray-800">
@@ -62,6 +63,7 @@ const Chat = ({ requestMessage, responseMessage }: ChatProps) => {
           </div>
         </div>
       </div>
+      <div>{answer}</div>
     </>
   );
 };
