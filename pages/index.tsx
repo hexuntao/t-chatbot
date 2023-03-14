@@ -9,12 +9,12 @@ export default function Home() {
 
   const fetchAnswer = async (params: any) => {
     try {
-      const response = await fetch("/api/generate", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(params),
+        body: JSON.stringify({ messages: params.prompt }),
       });
 
       const data = await response.json();
@@ -40,7 +40,7 @@ export default function Home() {
       temperature: 0.9,
     });
     console.log("data", result);
-    const data = result.data.choices[0].text;
+    const data = result?.data.choices[0].text;
     item.answer = <div dangerouslySetInnerHTML={{ __html: data as any }}></div>;
     updateAt(list.length, item);
   };
