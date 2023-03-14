@@ -27,7 +27,12 @@ export default async function (req: any, res: any) {
   }
 
   try {
-    const completion = await openai.createCompletion(params);
+    const completion = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: params.prompt,
+      temperature: 0.8,
+      max_tokens: 3500,
+    });
     console.log("completion", completion);
     res.status(200).json({ result: completion });
   } catch (error: any) {
