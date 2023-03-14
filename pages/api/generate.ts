@@ -16,8 +16,8 @@ export default async function (req: any, res: any) {
     return;
   }
 
-  const params = req.body || {};
-  if (!params.prompt || params.prompt.trim().length === 0) {
+  const prompt = req.body.prompt || "";
+  if (prompt.trim().length === 0) {
     res.status(400).json({
       error: {
         message: "请输入内容",
@@ -29,9 +29,9 @@ export default async function (req: any, res: any) {
   try {
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: params.prompt,
-      temperature: 0.8,
-      max_tokens: 3500,
+      prompt: prompt,
+      temperature: 0,
+      max_tokens: 1000,
     });
     console.log("completion", completion);
     res.status(200).json({ result: completion });

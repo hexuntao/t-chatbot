@@ -7,14 +7,14 @@ import Side from "../components/Side";
 export default function Home() {
   const [list, { push, updateAt }] = useList<ContentItemProps>([]);
 
-  const fetchAnswer = async (params: any) => {
+  const fetchAnswer = async (text?: string) => {
     try {
       const response = await fetch("/api/generate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(params),
+        body: JSON.stringify({ prompt: text }),
       });
 
       const data = await response.json();
@@ -33,14 +33,9 @@ export default function Home() {
     const item: ContentItemProps = { question: e };
     push(item);
 
-    const params = {
-      model: "text-davinci-003",
-      prompt: e,
-      temperature: 0,
-      max_tokens: 7,
-    };
-    const data = await fetchAnswer(params);
-    console.log("data", data);
+    const result: any = await fetchAnswer(e);
+    console.log("data", result);
+    const data = result.data.choices[0].text;
     item.answer = <div dangerouslySetInnerHTML={{ __html: data as any }}></div>;
     updateAt(list.length, item);
   };
