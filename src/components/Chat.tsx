@@ -16,7 +16,7 @@ const Chat = ({ requestMessage, responseMessage }: ChatProps) => {
                   <Image
                     width={40}
                     height={40}
-                    src="/images/vercel.svg"
+                    src="/vercel.svg"
                     alt="avatar"
                   />
                 </span>
@@ -55,6 +55,7 @@ const Chat = ({ requestMessage, responseMessage }: ChatProps) => {
           <div className="relative flex w-[calc(100%-50px)] flex-col gap-1 md:gap-3 lg:w-[calc(100%-115px)]">
             <div className="flex flex-col flex-grow gap-3">
               <div className="min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap">
+                {/* <div dangerouslySetInnerHTML={{__html:responseMessage}}>{responseMessage}</div> */}
                 <p>{responseMessage}</p>
               </div>
             </div>
