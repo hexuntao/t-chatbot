@@ -24,7 +24,7 @@ export const useChatStore = create<any>(
 
           set(() => ({ loading: true }));
 
-          const response = await fetch("/api/gpt3", {
+          const response = await fetch("/api/prod", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
