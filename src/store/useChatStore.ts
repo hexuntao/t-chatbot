@@ -52,6 +52,7 @@ export const useChatStore = create<any>(
               answer: answer + chunkValue,
             }));
           }
+
           //
           set((state: any) => ({
             chats: [

@@ -12,7 +12,7 @@ export default async function handler(req: NextRequest) {
   const { prompt, ...rest } = (await req.json()) as { prompt: string };
   const payload: OpenAIStreamEvent = {
     model: "text-davinci-003",
-    prompt,
+    prompt: prompt,
     temperature: 0.5,
     top_p: 1,
     frequency_penalty: 0,
