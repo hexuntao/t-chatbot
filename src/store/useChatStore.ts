@@ -1,5 +1,5 @@
-import create from "zustand";
-import { persist } from "zustand/middleware";
+import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 interface ChatStore {
   chats: any[];
@@ -77,7 +77,7 @@ export const useChatStore = create<any>(
     }),
     {
       name: "t-chatbot",
-      getStorage: () => localStorage,
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );

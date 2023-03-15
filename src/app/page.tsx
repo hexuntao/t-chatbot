@@ -1,69 +1,59 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Hero from "@/components/Hero";
 import Chat from "@/components/Chat";
+import { useChatStore } from "@/store/useChatStore";
+import Loading from "@/components/Loading";
 
 export default function HomePage() {
+  const messagesEnd = useRef<HTMLDivElement>(null);
   const [requestMessage, setRequestMessage] = useState<string>("");
-  const [responseMessage, setResponseMessage] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+
+  const { chats, chat, answer, loading, addChat } = useChatStore();
+
+  const scrollToBottom = () => {
+    if (messagesEnd && messagesEnd.current) {
+      messagesEnd.current.scrollIntoView(false);
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [chats]);
 
   const generateResponse = async (e: any) => {
     if (loading) {
       return;
     }
     e.preventDefault();
-    setResponseMessage("");
-    setLoading(true);
-
-    const response = await fetch("/api/gpt3", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ prompt: requestMessage }),
-    });
-
-    if (!response.ok) {
-      throw new Error("访问出错了!");
-    }
-
-    const data = response.body;
-    if (!data) return;
-
-    const reader = data.getReader();
-    const decoder = new TextDecoder();
-
-    let done = false;
-    while (!done) {
-      const { value, done: readerDone } = await reader.read();
-      done = readerDone;
-      const chunkValue = decoder.decode(value);
-      setResponseMessage(prev => prev + chunkValue);
-    }
-    setLoading(false);
+    addChat(requestMessage);
+    setRequestMessage("");
   };
 
   return (
     <main className="relative flex flex-col items-stretch flex-1 w-full h-full overflow-hidden transition-width">
       <div className="flex-1 overflow-hidden">
-        <div className="h-full dark:bg-gray-800">
+        <div className="max-h-full overflow-y-auto dark:bg-gray-800">
           <div className="flex flex-col items-center h-full text-sm dark:bg-gray-800">
-            {responseMessage === "" ? (
-              loading ? (
-                <div className="flex flex-col items-center justify-center h-full font-bold text-gray-100">
-                  远程生成中...
-                </div>
-              ) : (
-                <Hero />
-              )
+            {chats.length ? (
+              chats.map((item: any, index: number) => (
+                <Chat
+                  key={index}
+                  requestMessage={item.chat}
+                  responseMessage={item.answer}
+                  answer={answer}
+                />
+              ))
             ) : (
-              <Chat
-                requestMessage={requestMessage}
-                responseMessage={responseMessage}
-              />
+              <Hero />
+            )}
+            {loading && (
+              <div className="py-4">
+                <Loading />
+              </div>
             )}
           </div>
+          <div ref={messagesEnd} className="w-full h-32"></div>
         </div>
       </div>
       <div className="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient">

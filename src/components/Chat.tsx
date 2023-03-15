@@ -14,12 +14,7 @@ const Chat = ({ requestMessage, responseMessage, answer }: ChatProps) => {
             <div className="relative flex">
               <span className="box-sizing: border-box; display: inline-block; overflow: hidden; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; position: relative; max-width: 100%;">
                 <span className="box-sizing: border-box; display: block; width: initial; height: initial; background: none; opacity: 1; border: 0px; margin: 0px; padding: 0px; max-width: 100%;">
-                  <Image
-                    width={40}
-                    height={40}
-                    src="/vercel.svg"
-                    alt="avatar"
-                  />
+                  <div className="w-10 h-10 rounded bg-slate-500" />
                 </span>
               </span>
             </div>
@@ -36,7 +31,7 @@ const Chat = ({ requestMessage, responseMessage, answer }: ChatProps) => {
       <div className="w-full border-b border-black/10 dark:border-gray-900/50 text-gray-800 dark:text-gray-100 group bg-gray-50 dark:bg-[#444654]">
         <div className="flex gap-4 p-4 m-auto text-base md:gap-6 md:max-w-2xl lg:max-w-2xl xl:max-w-3xl md:py-6 lg:px-0">
           <div className="w-[30px] flex flex-col relative items-end">
-            <div className="relative h-[30px] w-[30px] p-1 rounded-sm text-white flex items-center justify-center">
+            <div className="relative flex items-center justify-center w-10 h-10 p-1 text-gray-500 rounded bg-slate-50">
               <svg
                 width="41"
                 height="41"
@@ -56,14 +51,12 @@ const Chat = ({ requestMessage, responseMessage, answer }: ChatProps) => {
           <div className="relative flex w-[calc(100%-50px)] flex-col gap-1 md:gap-3 lg:w-[calc(100%-115px)]">
             <div className="flex flex-col flex-grow gap-3">
               <div className="min-h-[20px] flex flex-col items-start gap-4 whitespace-pre-wrap">
-                {/* <div dangerouslySetInnerHTML={{__html:responseMessage}}>{responseMessage}</div> */}
                 <p>{responseMessage}</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div>{answer}</div>
     </>
   );
 };
