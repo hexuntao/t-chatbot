@@ -20,7 +20,6 @@ export default async function handler(req: NextRequest) {
     max_tokens: 200,
     stream: true,
     n: 1,
-    ...rest,
   };
 
   const stream = await OpenAIStream(payload);
