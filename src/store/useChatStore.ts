@@ -29,7 +29,16 @@ export const useChatStore = create<any>(
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ prompt: requestMessage }),
+            body: JSON.stringify({
+              prompt: requestMessage,
+              temperature: 0.5,
+              top_p: 1,
+              frequency_penalty: 0,
+              presence_penalty: 0,
+              max_tokens: 200,
+              stream: true,
+              n: 1,
+            }),
           });
 
           if (!response.ok) {
